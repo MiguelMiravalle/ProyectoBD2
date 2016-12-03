@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Interfaz Busca ID libro</title>
+
+        <script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+         <link rel="stylesheet" href="bootstrap.css"/>
+        <script>
+            $(document).ready(function (e) {
+               
+                //Buscar todos los productos
+                $("#buscar-libros").click(function () {
+                    console.log("Buscaremos los Libros");
+                    
+                    $.ajax({   //para que se conecte a un servicio asincronicamente
+                        dataType: "json",  //va a recibir un formato json
+                        url: "buscar-porid",
+                        data:{
+                          id:$("#miid").val()
+                        },
+                        success: function (datos) { 
+                            console.log(" despues del seervlet");
+                            
+        //datos ahi se deposita todo el json 
+                            $("#mis-libros").html("");   //length dice cuantos elemntos tiene
+                            $.each(datos, function (key, val) {
+                              $("#mis-libros").append("<tr class='success'>")
+                              $("#mis-libros").append("<td>" + val.idLibro + "</td><td>" + val.nombre + "</td><td>" + val.precio + "</td>")
+                              $("#mis-libros").append("</tr>")
+                            });        
+                            
+                        }
+                    });
+                   
+                });
+       
+            });
+        </script>
+
+    </head> 
+    <body> 
+        <h2>Buscar Libros por ID </h2>
+      
+        <div class="form-group">
+                <label for="exampleInputName2">id</label>
+                <input type="text" class="form-control" id="miid" placeholder="Id libro ">
+         </div>
+            
+        <button id="buscar-libros">Buscar </button>
+          
+         <table class="table">
+            <thead>
+                <tr class="info">
+                    <th>Id_libro</th>
+                    <th>Nombre Libro</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody id="mis-libros">
+                
+            </tbody>
+        </table>
+               
+    </body>
+</html>
